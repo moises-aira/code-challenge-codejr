@@ -103,5 +103,7 @@ export function CriaClientes(){
         
     }
 
+    return listaCliente;
+
 }
 
