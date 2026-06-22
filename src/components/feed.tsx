@@ -1,14 +1,36 @@
 import { useState,useEffect } from "react";
 import { CriaClientes, Cliente } from "../classes/clientes";
 
-
-const listaClientes =CriaClientes();
+//crio uma lista auxiliar para passar os clientes registrados nela para a listaClientes, simulando uma entrada
+const listaAuxiliar =CriaClientes();
+let listaClientes:Cliente[]=[];
+let j= 0
 
 function Lista(){
     
+    const [segundos,setSegunds]=useState(0);
+
     //botão para filtrar os CLientes Vips
     const [somenteVips,setSomenteVips] = useState(false);
-    //
+    
+
+    useEffect(()=> {
+
+        
+        
+        //A cada 3 segundo 1 cliente é passado da listaAuxiliar para a listaClientes
+        const intervalo=setInterval(()=>{
+            setSegunds((segundoAnterior)=>segundoAnterior+1)
+
+           listaClientes.push(listaAuxiliar[j])
+        
+            j++;
+
+        },3000);
+
+        return () => clearInterval(intervalo);
+
+    },[]);
     const cliente_filtrados= somenteVips? listaClientes.filter(cliente=>cliente.status):listaClientes;
 
 

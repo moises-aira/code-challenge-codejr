@@ -99,7 +99,7 @@ export function CriaClientes(){
         const susa= gerarNumAleatorio(0,4);
         let vip= susa>3?true:false;
 
-        listaCliente.push(new Cliente(i,nome_completo,randomIdade,vip));
+        listaCliente.push(new Cliente(i+1,nome_completo,randomIdade,vip));
         
     }
 
