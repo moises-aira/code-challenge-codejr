@@ -3,14 +3,15 @@ export class Cliente{
     nome:string;
     idade:number;
     status:boolean;
+    entrada:string;
 
     constructor(id:number,nome:string,idade:number,status:boolean){
         this.id=id;
         this.nome=nome;
         this.idade=idade;
         this.status=status;
+        this.entrada="Velha camarada, obrigado pela carta";
     }
-
 }
 export function CriaClientes(){
 
@@ -98,6 +99,7 @@ export function CriaClientes(){
 
         const susa= gerarNumAleatorio(0,4);
         let vip= susa>3?true:false;
+        
 
         listaCliente.push(new Cliente(i+1,nome_completo,randomIdade,vip));
         
