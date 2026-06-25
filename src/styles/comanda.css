@@ -1,0 +1,12 @@
+.caixa-arredondada {
+  position: fixed;            /* Removidas as aspas */
+  top: 20px;
+  right: 20px;                /* Adicionado ponto e vírgula */
+  width: 300px;
+  height: 400px;
+  background-color: #09283d;  /* Corrigido de backgroundColor para background-color */
+  color: rgb(192, 192, 192);  /* Removidas as aspas */
+  padding: 20px;              /* Removidas as aspas */
+  border-radius: 15px;        /* Corrigido de borderRadius para border-radius */
+  z-index: 1000;              /* Corrigido de zIndex para z-index e adicionado ponto e vírgula */
+}

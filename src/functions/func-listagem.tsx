@@ -1,10 +1,11 @@
 import { useState,useEffect ,useMemo} from "react";
-import { CriaClientes} from "../classes/clientes";
+import CriaComanda from "./func-cria-comanda";
+import Comanda from "../classes/class-comanda";
 
 function useListaClientes(){
-    const [listaClientes,setListaCliente]=useState<any[]>([]);
+    const [listaComanda,setListaComanda]=useState<any[]>([]);
     const [cont,setIndice]=useState(0)
-    const listaAuxiliar = useMemo(() => CriaClientes(), [])
+    const listaAuxiliar = useMemo(() => CriaComanda(), [])
     useEffect(()=> {
          if (cont>=listaAuxiliar.length)return
         
@@ -13,13 +14,22 @@ function useListaClientes(){
             
             
 
-           const proximo_cliente={
-            ...listaAuxiliar[cont],
-             //Define a hora de entrada de cada cliente
-            entrada : new Date().toLocaleTimeString("pt-BR")
-           }
 
-           setListaCliente((listaAnterior)=>[...listaAnterior,proximo_cliente]);
+            const comandaAntiga = listaAuxiliar[cont];
+
+            // a entrada é registrada no momento que o cliente passa para a lista do live feed
+            const clienteAtualizado = {
+                ...comandaAntiga.cliente,
+                entrada: new Date().toLocaleTimeString("pt-BR")
+            };
+
+
+           const proximo_comanda = new Comanda(
+                clienteAtualizado, 
+                comandaAntiga.produto 
+            );
+
+           setListaComanda((listaAnterior)=>[...listaAnterior,proximo_comanda]);
 
            setIndice((contAnterior)=>(contAnterior+1));
 
@@ -30,7 +40,7 @@ function useListaClientes(){
 
     },[cont,listaAuxiliar]);
     
-    return listaClientes;
+    return listaComanda;
 }
 
 export default useListaClientes

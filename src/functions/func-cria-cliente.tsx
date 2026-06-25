@@ -1,19 +1,6 @@
-export class Cliente{
-    id: number;
-    nome:string;
-    idade:number;
-    status:boolean;
-    entrada:string;
+import  Cliente  from "../classes/class-clientes";
 
-    constructor(id:number,nome:string,idade:number,status:boolean){
-        this.id=id;
-        this.nome=nome;
-        this.idade=idade;
-        this.status=status;
-        this.entrada="Velha camarada, obrigado pela carta";
-    }
-}
-export function CriaClientes(){
+function CriaClientes(){
 
     function gerarNumAleatorio(min: number, max: number):number{
         return Math.floor(Math.random()* (max-min+1))+min;
@@ -103,9 +90,11 @@ export function CriaClientes(){
 
         listaCliente.push(new Cliente(i+1,nome_completo,randomIdade,vip));
         
+        
     }
 
     return listaCliente;
 
 }
 
+export default CriaClientes

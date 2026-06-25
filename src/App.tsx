@@ -11,12 +11,13 @@ function App() {
 
   const [busca,setBusca] =useState("");
 
+
   return (
     <>
     <Pesquisar setBusca={setBusca}/>
     <Contador dadosClientes={listaCentral}/>
     
-    <Lista dadosClientes={listaCentral} termoBusca={busca}/>
+    <Lista dadosClientes={listaCentral} termoBusca={busca} />
     </>
   )
 }

@@ -52,3 +52,14 @@ Por ser um ambiente completamente diferente dos conhecimentos desenvolvidos dura
     - **Refatoração do Live Feed**: Inicialmente, eu estava desenvolvendo o live feed dentro de uma única função, o que no futuro poderia tornar o meu código muito confuso. Por isso, o reestruturei, dividindo cada parte do live feed em funções isoladas para depois chamá-las na função principal.
     - **Dessincronizaçao dos Dados**: Enfrentei uma dessincronização dos dados com o que era exibido para o usuário. O código chamava uma função de listagem para cada componente, fazendo com que cada um trabalhasse com uma lista de clientes diferente. Para resolver isso, criei uma variável de lista global (estado compartilhado) para ser usada em cada módulo.
     - **Lógica de Filtragem**: Tive bastante trabalho para implementar a barra de pesquisa; no entanto, após a dificuldade, percebi que a sua lógica é bem simples.
+
+## **24/06/2026** - Criando a comanda 
+- Criação da comanda.
+- Implementação da listagem de produtos dentro da comanda.
+- Refatoração e reajuste em todas as classes do projeto.
+- Finalização de todos os elementos essenciais da estrutura do site, restando apenas a estilização com CSS.
+- **Desafios enfrentados**:
+    - **Imprevisto na criação da comanda**: O *live feed* estava sendo desenvolvido utilizando uma lista de objetos do tipo `Cliente`. Porém, percebi que para criar a comanda seria necessária uma lista que instanciasse comandas, e não clientes. Esse imprevisto exigiu uma revisão completa do código, alterando onde as classes e listas de `Cliente` eram usadas para `Comanda`.
+    - **Problema na criação de produtos**: Dentro da comanda, é possível declarar o nome e o preço do produto. Entretanto, o sistema não estava aceitando produtos com nomes ou valores iguais durante a listagem. Ou seja, se tivéssemos um "Café (R$ 5,00)" e um "Bolo (R$ 5,00)", a entrada não era registrada na comanda por conta do valor similar, apesar dos nomes diferentes. Para resolver isso, atribuí um ID único à classe `Produto`. Dessa forma, a diferenciação passou a ser feita pelo ID, permitindo o cadastro de produtos com nomes ou valores idênticos.
+    - **Erros "invisíveis"**: Em vários momentos o código aparentava estar correto e sem erros no console, mas nada era exibido na tela, deixando o site inteiramente em branco. Esses comportamentos inesperados foram constantes — tanto na lógica quanto na montagem do TSX/HTML —, exigindo bastante tempo de depuração (*debugging*) para encontrar as soluções.
+    - **Estruturação de componentes**: A estruturação HTML atual dos componentes ainda não está totalmente adequada, o que torna o posicionamento e a exibição dos elementos na tela insatisfatórios. Pretendo refatorar essa marcação assim que iniciar a etapa de estilização com o CSS.

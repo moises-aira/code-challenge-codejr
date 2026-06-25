@@ -2,7 +2,7 @@
 export function useContador({dadosClientes}:{dadosClientes:any[]}){
     const lista = dadosClientes;
     const qnt_Cliente=lista.length
-    const qnt_Vip=lista.filter((cliente: any) =>cliente.status).length
+    const qnt_Vip=lista.filter((comanda: any) =>comanda.cliente.status).length
 
 
     //porcentagem
