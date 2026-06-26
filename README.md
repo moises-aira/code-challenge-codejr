@@ -2,7 +2,7 @@
 
 Este documento registra o processo de planejamento, tomada de decisão e arquitetura usada para o desafio de 1 semana **DEV2-FrontEnd da CODE[] Jr**.
 
-# Cenario e Objetivo
+# Cenário e Objetivo
 A Drzyy é uma casa de shows de altíssima rotatividade. A gerência precisa de precisão cirúrgica para monitorar o fluxo de clientes presentes, controlar o acesso da lista VIP e gerenciar o consumo (comandas) de forma ágil. Diferente de sistemas tradicionais, a operação não para: os dados de entrada e saída mudam a cada segundo. 
 
 A missão foi desenvolver uma Single Page Application (SPA) administrativa, projetada para reagir a um fluxo de dados em tempo real e lidar com formulários transacionais. O objetivo é avaliar a capacidade de construir interfaces componentizadas, gerenciar estados complexos e garantir a performance da UI sob atualizações constantes.
@@ -19,7 +19,7 @@ A missão foi desenvolver uma Single Page Application (SPA) administrativa, proj
 - Painel de Comanda;
 
 # Contexto do Desenvolvedor
-Este projeto foi desenvolvido por um estudante do **1º período de Ciência da Computação**. Até o momento de início deste projeto (20/06/2026), a única linguagem com a qual tive contato acadêmico foi o **Java**.
+Este projeto foi desenvolvido por um estudante após finalizar o **1º período de Ciência da Computação**. Até o momento de início deste projeto (20/06/2026), a única linguagem com a qual tive contato acadêmico foi o **Java**.
 
 Por ser um ambiente completamente diferente dos conhecimentos desenvolvidos durante o primeiro semestre acadêmico, tomei a liberdade de utilizar ferramentas de Inteligência Artificial para me auxiliar na sintaxe do **TypeScript** e no aprendizado de novas ferramentas sugeridas para o desafio, como o **React**, **HTML** e **CSS**. Toda a lógica aplicada e a organização deste projeto foram realizadas por mim.
 
@@ -28,6 +28,54 @@ Por ser um ambiente completamente diferente dos conhecimentos desenvolvidos dura
 - `./src/components`: Components criados aderir ao Modulo principal.
 - `./src/functions`: Funções criadas para facilitar o compreendimento do codigo.
 - `./src/styles`: Arquivos de estilização global ou de módulos.
+
+#### A. (Live Feed)
+
+Este fluxo descreve o ciclo de vida dos dados simulados em tempo real, desde a entrada na memória até a renderização e filtragem:
+
+[ Gerador de Dados (Mock) ]
+(Gera Nome, Idade e Status aleatórios para o Cliente)
+            │
+            ▼
+[ Instanciação de Comandas ]
+(Modela o objeto Comanda, vinculando Cliente e Consumo de Produtos)
+            │
+            ▼
+[ Motor do Live Feed (setInterval) ]
+(Injeta 1 nova comanda a cada 3 segundos no Estado Global)
+            │
+            ▼
+[ Estado Centralizado (Source of Truth) ]
+(Lista de comandas atualizada em tempo real)
+            │
+            ▼
+[ Interface Reativa (Tabela HTML) ]
+(Renderiza os dados na tela do usuário)
+            │
+            ▼
+[ Camada de Filtragem]
+ ┌──────────┴──────────┐
+ ▼                     ▼
+[Botão Filtro VIP]   [Barra de Pesquisa por Nome]
+
+#### B. (Gerenciamento de Consumo)
+
+Este fluxo mapeia a jornada de experiência do usuário  ao interagir de forma ativa com o painel para registrar consumo nas comandas:
+
+[ Seleção de Cliente ] ───► (Identificação do usuário através da Tabela Reativa)
+            │
+            ▼
+[ Abertura de Comanda ] ──► (Invocação do módulo/modal visual da comanda correspondente)
+            │
+            ▼
+[ Entrada de Dados ] ────► (Operador digita o Nome e o Preço do produto consumido)
+            │
+            ▼
+[ Registro de Produto ] ──► (Instanciação do objeto Produto com ID único e push no array da Comanda)
+            │
+            ▼
+[ Atualização da UI ] ───► (Recálculo instantâneo dos totais de consumo do cliente exibidos na tela)
+
 
 # Desafios e Tomada de Decisões
 
@@ -77,17 +125,18 @@ Por ser um ambiente completamente diferente dos conhecimentos desenvolvidos dura
 ## **25/06/2026** - Resolução de Vazamento de Escopo nas Comandas
 - Correção de bugs de escopo e isolamento nas comandas.
 - **Desafios enfrentados**:
-    - **Vazamento de Referência de Itens**: Foi detectado um bug crítico onde os produtos adicionados por um cliente (ex: Café) eram replicados instantaneamente nas comandas de todos os outros usuários do sistema. O erro acontecia por conta de referências compartilhadas na memória. Para corrigir, passei a instanciar arrays independentes de produtos atrelados unicamente ao ID do cliente logado na comanda correspondente, isolando os consumos com sucesso.
-    
+    - **Vazamento de Referência de Itens**: Foi detectado um Erro onde os produtos adicionados por um cliente (ex: Café) eram replicados instantaneamente nas comandas de todos os outros usuários do sistema. O erro acontecia por conta de referências compartilhadas na memória. Para corrigir, passei a instanciar arrays independentes de produtos atrelados unicamente ao ID do cliente logado na comanda correspondente, isolando os consumos com sucesso.
+
 ## **26/06/2026** - Estilização e Polimento de Interface
 - Estilização completa da tabela reativa e linhas de dados.
 - Customização visual da barra de pesquisa e estados focados.
-- Formatação dos cartões de métricas do Live Dashboard (Clientes Comuns vs. VIPs).
+- Formatação dos contadores (Clientes Comuns e VIPs).
 - Design do Painel de Comandas.
 - **Desafios enfrentados**:
-    - Sendo a área com a qual tive menor afinidade natural no processo, o CSS demandou um fluxo constante de pesquisa e apoio de inteligência artificial para dominar conceitos como posicionamento de caixas (Flexbox), alinhamento de elementos, pseudo-classes (`:hover`) e transições visuais fluidas.
+    - Sendo a área com a qual tive menor afinidade natural no processo, o CSS demandou um fluxo constante de pesquisa e apoio de inteligência artificial para dominar conceitos como posicionamento de caixas e alinhamento de elementos. 
+
 # Considerações Finais do Projeto
 
-Desenvolver uma aplicação desse porte em apenas uma semana foi um desafio extremamente gratificante. Vindo de um ambiente acadêmico focado em lógica pura (como manipulação estruturada de matrizes e coleções em Java), o contato com o desenvolvimento Web reativo abriu novas perspectivas. 
+Desenvolver uma aplicação desse porte em apenas uma semana foi um desafio extremamente gratificante. Vindo de um ambiente acadêmico focado em lógica pura (como manipulação estruturada de matrizes e objetos Java), o contato com o desenvolvimento Web reativo abriu novas perspectivas. 
 
 A minha percepção a respeito do ecossistema React e do ecossistema de tipagem do TypeScript mudou drasticamente ao longo desses dias: o receio e o sentimento de estar perdido no início deram lugar à satisfação de ver uma interface complexa reagindo em tempo real e de forma coordenada. Busquei manter o código o mais limpo, componentizado e documentado possível dentro dos meus conhecimentos atuais.
