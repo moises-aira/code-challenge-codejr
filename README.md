@@ -113,7 +113,7 @@ O servidor é responsável por simular a portaria da casa de shows, gerando comb
 1. Abra um terminal na raiz do projeto.
 2. Navegue até a pasta do servidor:
    ```bash
-   cd live-server
+   cd servidor-live-ws
    ```
 3. Instale a dependência de rede necessária (`ws`):
    ```bash
