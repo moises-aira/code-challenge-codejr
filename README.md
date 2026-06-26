@@ -2,11 +2,21 @@
 
 Este documento registra o processo de planejamento, tomada de decisão e arquitetura usada para o desafio de 1 semana **DEV2-FrontEnd da CODE[] Jr**.
 
+# Cenario e Objetivo
+A Drzyy é uma casa de shows de altíssima rotatividade. A gerência precisa de precisão cirúrgica para monitorar o fluxo de clientes presentes, controlar o acesso da lista VIP e gerenciar o consumo (comandas) de forma ágil. Diferente de sistemas tradicionais, a operação não para: os dados de entrada e saída mudam a cada segundo. 
+
+A missão foi desenvolver uma Single Page Application (SPA) administrativa, projetada para reagir a um fluxo de dados em tempo real e lidar com formulários transacionais. O objetivo é avaliar a capacidade de construir interfaces componentizadas, gerenciar estados complexos e garantir a performance da UI sob atualizações constantes.
+
 # Requisitos Técnicos
 - **Framework**: React, Angular ou Vue;
 - **Linguagem**: TypeScript (Obrigatória);
 - **Arquitetura Real-Time**: Construir um mecanismo Front-End que injete novos clientes e atualize as métricas em um determinado tempo, simulando um Live Feed;
 - **Convenção de Projeto**: kebab-case;
+
+# Funcionalidades Obrigatórias
+- Live DashBoard;
+- Tabela Reativa;
+- Painel de Comanda;
 
 # Contexto do Desenvolvedor
 Este projeto foi desenvolvido por um estudante do **1º período de Ciência da Computação**. Até o momento de início deste projeto (20/06/2026), a única linguagem com a qual tive contato acadêmico foi o **Java**.
@@ -63,3 +73,21 @@ Por ser um ambiente completamente diferente dos conhecimentos desenvolvidos dura
     - **Problema na criação de produtos**: Dentro da comanda, é possível declarar o nome e o preço do produto. Entretanto, o sistema não estava aceitando produtos com nomes ou valores iguais durante a listagem. Ou seja, se tivéssemos um "Café (R$ 5,00)" e um "Bolo (R$ 5,00)", a entrada não era registrada na comanda por conta do valor similar, apesar dos nomes diferentes. Para resolver isso, atribuí um ID único à classe `Produto`. Dessa forma, a diferenciação passou a ser feita pelo ID, permitindo o cadastro de produtos com nomes ou valores idênticos.
     - **Erros "invisíveis"**: Em vários momentos o código aparentava estar correto e sem erros no console, mas nada era exibido na tela, deixando o site inteiramente em branco. Esses comportamentos inesperados foram constantes — tanto na lógica quanto na montagem do TSX/HTML —, exigindo bastante tempo de depuração (*debugging*) para encontrar as soluções.
     - **Estruturação de componentes**: A estruturação HTML atual dos componentes ainda não está totalmente adequada, o que torna o posicionamento e a exibição dos elementos na tela insatisfatórios. Pretendo refatorar essa marcação assim que iniciar a etapa de estilização com o CSS.
+
+## **25/06/2026** - Resolução de Vazamento de Escopo nas Comandas
+- Correção de bugs de escopo e isolamento nas comandas.
+- **Desafios enfrentados**:
+    - **Vazamento de Referência de Itens**: Foi detectado um bug crítico onde os produtos adicionados por um cliente (ex: Café) eram replicados instantaneamente nas comandas de todos os outros usuários do sistema. O erro acontecia por conta de referências compartilhadas na memória. Para corrigir, passei a instanciar arrays independentes de produtos atrelados unicamente ao ID do cliente logado na comanda correspondente, isolando os consumos com sucesso.
+    
+## **26/06/2026** - Estilização e Polimento de Interface
+- Estilização completa da tabela reativa e linhas de dados.
+- Customização visual da barra de pesquisa e estados focados.
+- Formatação dos cartões de métricas do Live Dashboard (Clientes Comuns vs. VIPs).
+- Design do Painel de Comandas.
+- **Desafios enfrentados**:
+    - Sendo a área com a qual tive menor afinidade natural no processo, o CSS demandou um fluxo constante de pesquisa e apoio de inteligência artificial para dominar conceitos como posicionamento de caixas (Flexbox), alinhamento de elementos, pseudo-classes (`:hover`) e transições visuais fluidas.
+# Considerações Finais do Projeto
+
+Desenvolver uma aplicação desse porte em apenas uma semana foi um desafio extremamente gratificante. Vindo de um ambiente acadêmico focado em lógica pura (como manipulação estruturada de matrizes e coleções em Java), o contato com o desenvolvimento Web reativo abriu novas perspectivas. 
+
+A minha percepção a respeito do ecossistema React e do ecossistema de tipagem do TypeScript mudou drasticamente ao longo desses dias: o receio e o sentimento de estar perdido no início deram lugar à satisfação de ver uma interface complexa reagindo em tempo real e de forma coordenada. Busquei manter o código o mais limpo, componentizado e documentado possível dentro dos meus conhecimentos atuais.

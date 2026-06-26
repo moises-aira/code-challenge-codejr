@@ -23,7 +23,7 @@ function ModalComanda({comanda: comanda,fechar}:ComandaProp){
             alert("Por favor, digite o nome e um preço válido.");
             return;
         }
-        const novo_produto=new Produto(nome_produto,preco_num,Date.now())
+        const novo_produto=new Produto(nome_produto,preco_num,comanda.cliente.id)
 
         comanda.produto=[...comanda.produto,novo_produto]
 
@@ -38,11 +38,13 @@ function ModalComanda({comanda: comanda,fechar}:ComandaProp){
     
     return(
         
-        <div className="caixa-arredondada">
+        <div className="comanda-filezuda">
             <header>
-                <h3><strong>{comanda.cliente.nome} | {comanda.cliente.status? "VIP" : 'Comum' }</strong>
+                <h3><strong>{comanda.cliente.nome} 
+                    <br></br>
+                    {comanda.cliente.status? "VIP" : 'Comum' }
                 <br></br>
-                {comanda.cliente.idade} anos</h3>
+                {comanda.cliente.idade} anos</strong></h3>
             </header>
             <h3></h3>
             <button onClick={fechar} style={{ 
@@ -50,26 +52,27 @@ function ModalComanda({comanda: comanda,fechar}:ComandaProp){
                 top: "40px",
                 right: "50px",}}>X</button>
 
-            <input type="text" placeholder="Produto: (ex: café)" value={nome_produto} onChange={(e)=> setNome_produto(e.target.value)}></input>
+            <input type="text" placeholder="Produto: (ex: café)" value={nome_produto} onChange={(e)=> setNome_produto(e.target.value) }></input>
             <input type="number" placeholder="Preço: (ex: 5,91)" value={preco_produto}onChange={(e)=> setPreco_produto(e.target.value)}></input>
             <br></br>
-            <button onClick={CadastraProduto}>Registrar</button>
+            <button onClick={CadastraProduto} className="botao-registrar">Registrar</button>
             <div>
                 <strong><h4>Itens do Peidio</h4></strong>
-                {listaProduto.length === 0 ? (
-                    <p >Nenhum item registrado.</p>
-                ) : (
-                    listaProduto.map((prod) => (
+                {
+                    listaProduto.map((prod) => ( comanda.cliente.id===prod.id ?(
                         <p key={prod.id}>
                             {prod.nome} - R$ {prod.preco.toFixed(2) }
-                        </p>
-                    ))
-                )}
+                        </p>)
+                    :(
+                         <p>Nenhum item adicionado</p>
+                    )
+                ))}
             </div>
 
-            <footer>
-                <strong>Total: R$ {totalComanda.toFixed(2)}</strong>
-            </footer>
+                <footer>
+                    <span>Total da Conta:</span>
+                    <strong>R$ {totalComanda.toFixed(2)}</strong>
+                </footer>
         </div>
     )
 

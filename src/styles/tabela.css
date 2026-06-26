@@ -1,0 +1,136 @@
+
+.container {
+  width: 90%;
+  max-width: 800px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
+}
+
+.tabela-container {
+  width: 100%;
+  overflow-x: auto; 
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.tabela-clientes {
+  width: 100%;
+  border-collapse: collapse; 
+  background-color: #292831;
+}
+
+.tabela-clientes th {
+  background-color: #1e1d24; 
+  color: #ffffff;
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.tabela-clientes td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #3a3945; 
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.linha-clicavel {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.linha-clicavel:hover {
+  background-color: #3e3d4a;
+}
+
+.status-vip {
+  background-color: #ffeaa7;
+  color: #d63031;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.status-comum {
+  background-color: #dfe6e9;
+  color: #2d3436;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.button {
+  background-color: #464626;
+  color: #dfe6e9;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.1s ease, background-color 0.3s ease;
+  align-self: flex-start; 
+}
+
+.button:hover {
+  background-color: #5c5c32;
+  transform: translateY(-1px); 
+}
+
+.bloco-contadores {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+}
+
+.contador {
+  background-color: #2c3e50;
+  color: #ffffff; 
+  flex: 1; 
+  height: 40px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.contador-vip {
+  background-color: #464626;
+  color: #ffffff; 
+  flex: 1;
+  height: 40px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.barra-pesquisa {
+  background-color: #acac99;
+  color: #0e1214;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 20px;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  width: 100%; 
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.barra-pesquisa:focus {
+  border-color: #464626; 
+  background-color: #c2c2b0;
+}

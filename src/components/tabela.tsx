@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ModalComanda from "./comanda";
 import type Comanda from "../classes/class-comanda";
+import "../styles/tabela.css"
 
 interface FiltroProp{
     dadosClientes:Comanda[];
@@ -24,12 +25,13 @@ function Lista({dadosClientes, termoBusca}:FiltroProp){
     }
 
     return(
-        <section> 
-            <button onClick={() => setSomenteVips(!somenteVips)}>
+        <section > 
+            <button onClick={() => setSomenteVips(!somenteVips)} className="button" >
                     {somenteVips? "Mostrar todos os Clientes": "Somente Vip"}
             </button>
             <br></br>
-        <table border={1}>
+        <div className="tabela-container" >
+        <table className="tabela-clientes">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -44,16 +46,22 @@ function Lista({dadosClientes, termoBusca}:FiltroProp){
                     <tr key={comanda.cliente.id} 
                         onClick={()=> setClienteSelecionado(comanda)}
                         style={{ cursor: "pointer" }}
+                        className="linha-clicavel"
                     >
                             <td>{comanda.cliente.id}</td>
                             <td>{comanda.cliente.nome}</td>
                             <td>{comanda.cliente.idade}</td>
-                            <td>{comanda.cliente.status==true? "Vip": "Comum"}</td>
+                             <td>
+                                    <span className={comanda.cliente.status ? "status-vip" : "status-comum"}>
+                                        {comanda.cliente.status ? "Vip" : "Comum"}
+                                    </span>
+                                </td>
                             <td>{comanda.cliente.entrada}</td>
                     </tr>
                  ))}
             </tbody>
         </table>
+        </div>
          {clienteSelecionado && (
              <ModalComanda 
                 comanda={clienteSelecionado} 

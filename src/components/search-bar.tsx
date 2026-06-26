@@ -6,8 +6,8 @@ interface Prop{
 
 function Pesquisar({setBusca}:Prop){
     return(
-    <div>
-        <input type="text" onChange={(e)=> setBusca(e.target.value)} placeholder="Pesquise um nome"></input>
+    <div className="container">
+        <input type="text" className="barra-pesquisa" onChange={(e)=> setBusca(e.target.value)} placeholder="Pesquise um nome"></input>
     </div>
     )
         
