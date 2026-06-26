@@ -18,6 +18,9 @@ A missão foi desenvolver uma Single Page Application (SPA) administrativa, proj
 - Tabela Reativa;
 - Painel de Comanda;
 
+# Extra: BackEnd com WebSockets
+O desafio extra consiste em construir uma pequena API Backend (em Node.js, Python, etc.) que emita os dados da portaria da Drzyy em tempo real através de WebSockets (ex: Socket.io) ou Server-Sent Events (SSE).O uso de Inteligencia Artificial para o BackEnd é incorajado.
+
 # Contexto do Desenvolvedor
 Este projeto foi desenvolvido por um estudante após finalizar o **1º período de Ciência da Computação**. Até o momento de início deste projeto (20/06/2026), a única linguagem com a qual tive contato acadêmico foi o **Java**.
 
@@ -29,53 +32,7 @@ Por ser um ambiente completamente diferente dos conhecimentos desenvolvidos dura
 - `./src/functions`: Funções criadas para facilitar o compreendimento do codigo.
 - `./src/styles`: Arquivos de estilização global ou de módulos.
 
-#### A. (Live Feed)
-
-Este fluxo descreve o ciclo de vida dos dados simulados em tempo real, desde a entrada na memória até a renderização e filtragem:
-
-[ Gerador de Dados (Mock) ]
-(Gera Nome, Idade e Status aleatórios para o Cliente)
-            │
-            ▼
-[ Instanciação de Comandas ]
-(Modela o objeto Comanda, vinculando Cliente e Consumo de Produtos)
-            │
-            ▼
-[ Motor do Live Feed (setInterval) ]
-(Injeta 1 nova comanda a cada 3 segundos no Estado Global)
-            │
-            ▼
-[ Estado Centralizado (Source of Truth) ]
-(Lista de comandas atualizada em tempo real)
-            │
-            ▼
-[ Interface Reativa (Tabela HTML) ]
-(Renderiza os dados na tela do usuário)
-            │
-            ▼
-[ Camada de Filtragem]
- ┌──────────┴──────────┐
- ▼                     ▼
-[Botão Filtro VIP]   [Barra de Pesquisa por Nome]
-
-#### B. (Gerenciamento de Consumo)
-
-Este fluxo mapeia a jornada de experiência do usuário  ao interagir de forma ativa com o painel para registrar consumo nas comandas:
-
-[ Seleção de Cliente ] ───► (Identificação do usuário através da Tabela Reativa)
-            │
-            ▼
-[ Abertura de Comanda ] ──► (Invocação do módulo/modal visual da comanda correspondente)
-            │
-            ▼
-[ Entrada de Dados ] ────► (Operador digita o Nome e o Preço do produto consumido)
-            │
-            ▼
-[ Registro de Produto ] ──► (Instanciação do objeto Produto com ID único e push no array da Comanda)
-            │
-            ▼
-[ Atualização da UI ] ───► (Recálculo instantâneo dos totais de consumo do cliente exibidos na tela)
-
+O sistema é projetado para integrar e gerenciar clientes em tempo real. Inicialmente, durante a fase de testes do ecossistema Front-End, utilizei uma função local em TypeScript para gerar clientes e comandas com dados aleatórios de forma estática. Contudo, conforme os requisitos obrigatórios e o desafio extra propostos, essa simulação local foi totalmente substituída pela integração reativa com um servidor Backend via WebSockets.
 
 # Desafios e Tomada de Decisões
 
@@ -91,7 +48,7 @@ Este fluxo mapeia a jornada de experiência do usuário  ao interagir de forma a
     - **Dificuldade com a linguagem**: Apesar de o TypeScript se assemelhar ao Java em alguns aspectos de tipagem, recorri frequentemente à documentação e à IA para identificar erros de compilação.
 
 ## **22/06/2026** - Criação de Classes e Live Feed
-- Criação das classes para Clientes, Comandas e Produtos.
+- Criação das classes para Clientes, Comandas e Produtos. Antes da integração com o WebSockets.
 - Desenvolvimento de uma função para gerar uma lista inicial de 500 clientes com dados aleatórios.
 - Implementação de um filtro funcional (via botão) para listar apenas clientes VIPs.
 - Construção da lógica do Live Feed para atualização em tempo real.
@@ -127,16 +84,69 @@ Este fluxo mapeia a jornada de experiência do usuário  ao interagir de forma a
 - **Desafios enfrentados**:
     - **Vazamento de Referência de Itens**: Foi detectado um Erro onde os produtos adicionados por um cliente (ex: Café) eram replicados instantaneamente nas comandas de todos os outros usuários do sistema. O erro acontecia por conta de referências compartilhadas na memória. Para corrigir, passei a instanciar arrays independentes de produtos atrelados unicamente ao ID do cliente logado na comanda correspondente, isolando os consumos com sucesso.
 
-## **26/06/2026** - Estilização e Polimento de Interface
+## **26/06/2026** - Estilização e integração com WebSockets
 - Estilização completa da tabela reativa e linhas de dados.
 - Customização visual da barra de pesquisa e estados focados.
 - Formatação dos contadores (Clientes Comuns e VIPs).
 - Design do Painel de Comandas.
+- integração do FrontEnd com o BackEnd Websokets
 - **Desafios enfrentados**:
     - Sendo a área com a qual tive menor afinidade natural no processo, o CSS demandou um fluxo constante de pesquisa e apoio de inteligência artificial para dominar conceitos como posicionamento de caixas e alinhamento de elementos. 
+    - **Arquitetura de Rede (WebSockets)**: A integração de dados persistentes em tempo real foi complexa no início. Aproveitando a liberação do edital para o uso de IA nesta etapa do Backend, foquei meus esforços em compreender profundamente o funcionamento do protocolo `ws`, adaptando a minha lógica matemática de sorteio de clientes e o encapsulamento de classes para rodar nativamente no ambiente do servidor Node.js.
+
+# Como Executar e Testar a Aplicação
+
+Para testar a aplicação com o fluxo de dados em tempo real, você precisará rodar o **Servidor Backend (WebSocket)** e o **Frontend (React)** simultaneamente em dois terminais diferentes.
+
+---
+
+## 📋 Pré-requisitos
+Antes de começar, certifique-se de ter instalado em sua máquina:
+- [Node.js](https://nodejs.org) (Versão 18 ou superior)
+- Um gerenciador de pacotes (o Node já vem com o `npm` por padrão)
+
+---
+
+## 🛠️ Passo 1: Executando o Servidor Live (Backend)
+O servidor é responsável por simular a portaria da casa de shows, gerando combinações aleatórias de clientes e disparando-os via WebSocket na porta `3333`.
+
+1. Abra um terminal na raiz do projeto.
+2. Navegue até a pasta do servidor:
+   ```bash
+   cd live-server
+   ```
+3. Instale a dependência de rede necessária (`ws`):
+   ```bash
+   npm install
+   ```
+4. Inicie o servidor:
+   ```bash
+   node server.js
+   ```
+*Você verá a mensagem: ` Servidor WebSocket rodando na porta 3333...` no terminal. Mantenha este terminal aberto.*
+
+---
+
+## 💻 Passo 2: Executando o Dashboard (Frontend)
+O frontend se conectará automaticamente ao servidor local e começará a popular a tabela reativa de 4 em 4 segundos.
+
+1. Abra um **novo terminal** (deixe o terminal do backend rodando em segundo plano).
+2. Certifique-se de estar na raiz do projeto e instale as dependências do React/Vite:
+   ```bash
+   npm install
+   ```
+3. Inicie o servidor de desenvolvimento do frontend:
+   ```bash
+   npm run dev
+   ```
+4. O terminal exibirá um endereço local (geralmente `http://localhost:5173/`). Abra este link no seu navegador (preferencialmente Firefox ou Chrome).
+
+---
 
 # Considerações Finais do Projeto
 
 Desenvolver uma aplicação desse porte em apenas uma semana foi um desafio extremamente gratificante. Vindo de um ambiente acadêmico focado em lógica pura (como manipulação estruturada de matrizes e objetos Java), o contato com o desenvolvimento Web reativo abriu novas perspectivas. 
 
 A minha percepção a respeito do ecossistema React e do ecossistema de tipagem do TypeScript mudou drasticamente ao longo desses dias: o receio e o sentimento de estar perdido no início deram lugar à satisfação de ver uma interface complexa reagindo em tempo real e de forma coordenada. Busquei manter o código o mais limpo, componentizado e documentado possível dentro dos meus conhecimentos atuais.
+
+O uso de Inteligência Artificial foi fundamental como um tutor de sintaxe em tempo real e durante o BackEnd com WebSocket, acelerando a curva de aprendizado em marcação web (HTML/CSS) e me ensinando a ler logs de erro complexos do navegador. Contudo, a engenharia da aplicação — entender que dados compartilhados pertencem ao componente Pai (App.tsx), gerenciar a imutabilidade dos estados e arquitetar o fluxo de rede do servidor para o cliente — exigiu raciocínio lógico focado e os fundamentos de POO assimilados no meu primeiro período de Ciência da Computação.
